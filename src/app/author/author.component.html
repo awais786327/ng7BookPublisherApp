@@ -1,0 +1,44 @@
+<div class="author-component-wrapper">
+
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+      <li class="breadcrumb-item">New</li>
+      <li class="breadcrumb-item active" aria-current="page">Author</li>
+    </ol>
+  </nav>
+
+  <form [formGroup]="authorForm" (ngSubmit)="onSubmit()">
+
+    <h5 *ngIf="success">Your form is valid!</h5>
+
+    <div class="form-group">
+      <label for="author-name">Name</label>
+      <input type="text" class="form-control" id="author-name" aria-describedby="author-name-help" placeholder="Enter Author Name" formControlName="name">
+      <small *ngIf="submitted && authorForm.controls.name.errors" id="author-name-help" class="form-text text-muted">
+        <div *ngIf="authorForm.controls.name.errors.required" class="text-danger">Author name is required.</div>
+      </small>
+    </div>
+
+    <div class="form-group">
+      <label for="author-about">About</label>
+      <input type="text" class="form-control" id="author-about" aria-describedby="author-about-help" placeholder="About Author" formControlName="about">
+      <small *ngIf="submitted && authorForm.controls.about.errors" id="author-about-help" class="form-text text-muted">
+        <div *ngIf="authorForm.controls.about.errors.required" class="text-danger">Please write something about author.</div>
+      </small>
+    </div>
+
+    <button type="submit" class="btn btn-success">Add Author</button> <a class="redirect-link" routerLink="/newPublisher">looking to add publisher ?</a>
+
+  </form>
+
+  <div class="results">
+  <pre *ngIf="authorForm.get('name').valid">
+    Name: {{ authorForm.controls.name.value }}
+  </pre>
+
+    <pre *ngIf="authorForm.get('about').valid">
+    About: {{ authorForm.controls.about.value }}
+  </pre>
+  </div>
+</div>

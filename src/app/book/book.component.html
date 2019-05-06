@@ -1,0 +1,79 @@
+<div class="book-component-wrapper">
+
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+      <li class="breadcrumb-item">New</li>
+      <li class="breadcrumb-item active" aria-current="page">Book</li>
+    </ol>
+  </nav>
+
+  <form [formGroup]="bookForm" (ngSubmit)="onSubmit()">
+
+    <h5 *ngIf="success">Your form is valid!</h5>
+
+    <div class="form-group">
+      <label for="book-name">Name</label>
+      <input type="text" class="form-control" id="book-name" aria-describedby="book-name-help" placeholder="Enter Book Name" formControlName="name">
+      <small *ngIf="submitted && bookForm.controls.name.errors" id="book-name-help" class="form-text text-muted">
+        <div *ngIf="bookForm.controls.name.errors.required" class="text-danger">Book name is required.</div>
+      </small>
+    </div>
+
+    <div class="form-group">
+      <label for="author">Author</label>
+      <select multiple id="author" class="form-control" formControlName="author">
+        <option [ngValue]="null" [selected]="true" hidden>Select Author</option>
+        <option [ngValue]="author" *ngFor="let author of authors">{{author.name}}</option>
+      </select>
+      <small *ngIf="submitted && bookForm.controls.author.errors" class="form-text text-muted">
+        <div *ngIf="bookForm.controls.author.errors.required" class="text-danger">
+          <div *ngIf="authors.length">
+            Please select author.
+          </div>
+          <div *ngIf="!authors.length">
+            Please <a routerLink="/newAuthor">create</a> a new author first.
+          </div>
+        </div>
+      </small>
+    </div>
+
+    <div class="form-group">
+      <label for="author">Publisher</label>
+      <select id="publisher" class="form-control" formControlName="publisher">
+        <option [ngValue]="null" [selected]="true" hidden>Select Publisher</option>
+        <option [ngValue]="publisher" *ngFor="let publisher of publishers">{{publisher.name}}</option>
+      </select>
+      <small *ngIf="submitted && bookForm.controls.publisher.errors" class="form-text text-muted">
+        <div *ngIf="bookForm.controls.publisher.errors.required" class="text-danger">
+          <div *ngIf="publishers.length">
+            Please select publisher.
+          </div>
+          <div *ngIf="!publishers.length">
+            Please <a routerLink="/newPublisher">create</a> a new publisher first.
+          </div>
+        </div>
+      </small>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Add Book</button>
+    <small>
+      <a class="redirect-link" routerLink="/newAuthor">author?</a><a class="redirect-link" routerLink="/newPublisher">publisher?</a>
+    </small>
+  </form>
+
+  <div class="results">
+    <pre *ngIf="bookForm.get('name').valid">
+      Name: {{ bookForm.controls.name.value }}
+    </pre>
+    <pre *ngIf="bookForm.get('author').valid">
+      Author: <span *ngFor="let obj of bookForm.controls.author.value">{{ obj.name + ' ' }}</span>
+    </pre>
+    <pre *ngIf="bookForm.get('publisher').valid">
+      Publisher: {{ bookForm.controls.publisher.value.name }}
+    </pre>
+  </div>
+
+</div>
+
+
